@@ -34,6 +34,8 @@ public class BasicUI {
 								+ "6. Filter entries by key in pair\n"
 								+ "7. Filter entries by a pair\n"
 								+ "8. Filter entries by a pair, where the value is a number\n"
+								+ "\n"
+								+ "H. Help\n"
 								+ "E. Exit\n"
 								+ "\n"
 								+ "Choose an option: ");
@@ -70,6 +72,9 @@ public class BasicUI {
 			case '8': 
 				filterByValueAsNumber();
 				break;
+			case 'h': case 'H':
+				help();
+				break;
 			case 'e': case 'E':
 				System.exit(0);
 			default:
@@ -80,6 +85,27 @@ public class BasicUI {
 		}
 	}
 	
+	private void help() {
+		System.out.print("Welcome to the Information storer!\n"
+				+ "\n"
+				+ "This implementation stores alll information as \"entries\"\n"
+				+ "that include 3 different ways of storing information,\n"
+				+ "all of which can be used to search/filter:\n"
+				+ "\n"
+				+ "Name:\n"
+				+ "\tThe name of the entry.\n"
+				+ "\n"
+				+ "Tags:\n"
+				+ "\tA list of short bits of information about the object.\n"
+				+ "\tExample usage cases of tags would be for\n"
+				+ "\tthe industry of a buisness or its resources.\n"
+				+ "\n"
+				+ "Pairs:\n"
+				+ "\tA list of key-value pairs of information.\n"
+				+ "\tExample usage cases of pairs would be for\n"
+				+ "\t a money balance or contact information\n");
+	}
+
 	public void printEntry() {
 		System.out.print("Enter the name of object to remove: ");
 		String name = sc.nextLine();
