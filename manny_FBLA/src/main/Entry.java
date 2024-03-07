@@ -1,9 +1,11 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class Entry {
@@ -12,7 +14,7 @@ public class Entry {
 	
 	final String name; 
 	final List<String> tags;
-	final TreeMap<String, String> pairs;
+	final SortedMap<String, String> pairs;
 	
 	public Entry(String name) {
 		this.name = name;
@@ -21,7 +23,7 @@ public class Entry {
 		pairs = null;
 	}
 
-	public Entry(String name, List<String> tags, TreeMap<String, String> map) {
+	public Entry(String name, List<String> tags, SortedMap<String, String> map) {
 		this.name = name;
 		this.tags = tags;
 		this.pairs = map;
@@ -55,5 +57,50 @@ public class Entry {
 	
 	public boolean nameContains(String s) {
 		return name.contains(s);
+	}
+	
+	public static List<String> stringToList(String s) {
+		return Arrays.asList(s.split(","));
+	}
+	
+	public static SortedMap<String, String> stringToMap(String s) {
+		String[] mapAsArray = s.split("=");
+		var maps = new TreeMap<String, String>();
+		
+		for (int i = 0; i < mapAsArray.length; i += 2) {
+			maps.put(mapAsArray[i], mapAsArray[i + 1]);
+		}
+		
+		return maps;
+	}
+	
+	public static String listToString(List<String> list) {
+		if (list.isEmpty())
+			return "";
+		
+		StringBuilder out = new StringBuilder();
+		
+		for (String entry : list) {
+			out.append(entry + ",");
+		}
+		
+		out.deleteCharAt(out.length() - 1); // pop last comma
+		
+		return out.toString();
+	}
+	
+	public static String mapToString(SortedMap<String, String> map) {
+		if (map.isEmpty())
+			return "";
+		
+		StringBuilder out = new StringBuilder();
+		
+		for (var entry : map.entrySet()) {
+			out.append(entry.getKey() + "=" + entry.getValue() + ",");
+		}
+		
+		out.deleteCharAt(out.length() - 1); // pop last comma
+		
+		return out.toString();
 	}
 }

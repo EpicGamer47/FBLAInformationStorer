@@ -437,33 +437,13 @@ public class BasicUI {
 		var out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(saveFile)));
 		
 		for (Entry e : entries.keySet()){
-			out.println(e.name);
-			
 			StringBuilder temp = new StringBuilder();
 			
-			if (!e.tags.isEmpty()) {
-				for (String tag : e.tags) {
-					temp.append(tag + ",");
-				}
-				
-				temp.deleteCharAt(temp.length() - 1);
-				out.println(temp);
-			}
-			else {
-				out.println();
-			}
+			out.println(e.name);
 			
-			if (!e.pairs.isEmpty()) {
-				temp.setLength(0);
-				for (var entry : e.pairs.entrySet()) {
-					temp.append(entry.getKey() + "=" + entry.getValue() + ",");
-				}
-				temp.deleteCharAt(temp.length() - 1);
-				out.println(temp);
-			}
-			else {
-				out.println();
-			}
+			out.println(Entry.listToString(e.tags));
+			
+			out.println(Entry.mapToString(e.pairs));
 		}
 		
 		out.flush();
@@ -477,16 +457,9 @@ public class BasicUI {
 		var lines = Files.readAllLines(Paths.get(saveFile));
 		
 		for (int entryNumber = 0; entryNumber < lines.size(); entryNumber += 3) {
-			String name = lines.get(entryNumber);
-			
-			List<String> tags = Arrays.asList(lines.get(entryNumber + 1).split(","));
-			
-			String[] pairsAsArray = lines.get(entryNumber + 2).split("=");
-			var pairs = new TreeMap<String, String>();
-			
-			for (int i = 0; i < pairsAsArray.length; i += 2) {
-				pairs.put(pairsAsArray[i], pairsAsArray[i + 1]);
-			}
+			var name = lines.get(entryNumber);
+			var tags = Entry.stringToList(lines.get(entryNumber + 1));
+			var pairs = Entry.stringToMap(lines.get(entryNumber + 2));
 			
 			Entry entry = new Entry(name, tags, pairs);
 			entries.put(entry, entry);
